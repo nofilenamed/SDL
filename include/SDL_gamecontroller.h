@@ -86,36 +86,38 @@ typedef enum
 typedef struct SDL_GameControllerButtonBind
 {
     SDL_GameControllerBindType bindType;
-    union
-    {
+    union {
         int button;
         int axis;
-        int hat;
-        int hat_mask;
+        struct
+        {
+            int hat;
+            int hat_mask;
+        } hat;
     } value;
-
 } SDL_GameControllerButtonBind;
-
 
 typedef struct SDL_GameControllerData
 {
     SDL_JoystickID instance; //SDL_JoystickInstanceID
-
     const char* name;
-    Uint16 vendor;
-    Uint16 product;
-    Uint16 version;
+    struct {
+        Uint16 vendor;
+        Uint16 product;
+        Uint16 version;
 
-    SDL_bool rumble;
-    SDL_bool rumbleTrigger;
-    SDL_bool led;
+        SDL_bool rumble;
+        SDL_bool rumbleTrigger;
+        SDL_bool led;
 
-    int axes; //SDL_JoystickNumAxes
-    int hats; //SDL_JoystickNumHats
-    int balls; //SDL_JoystickNumBalls
-    int button; //SDL_JoystickNumButtons
+        int axes; //SDL_JoystickNumAxes
+        int hats; //SDL_JoystickNumHats
+        int balls; //SDL_JoystickNumBalls
+        int button; //SDL_JoystickNumButtons
 
-    int touchpad; //SDL_GameControllerGetNumTouchpads
+        int haptic;
+        int touchpad; //SDL_GameControllerGetNumTouchpads
+    } value;
 
 } SDL_GameControllerData;
 /**
@@ -1010,6 +1012,8 @@ extern DECLSPEC const char* SDLCALL SDL_GameControllerGetAppleSFSymbolsNameForBu
 extern DECLSPEC const char* SDLCALL SDL_GameControllerGetAppleSFSymbolsNameForAxis(SDL_GameController *gamecontroller, SDL_GameControllerAxis axis);
 
 
+
+extern DECLSPEC SDL_GameControllerData SDLCALL SDL_GetControllerData(SDL_GameController* gamecontroller);
 /* Ends C function definitions when using C++ */
 #ifdef __cplusplus
 }

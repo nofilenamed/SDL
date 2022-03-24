@@ -264,6 +264,11 @@ SDL_JoystickIsHaptic(SDL_Joystick * joystick)
         return -1;
 }
 
+int
+SDL_ControllerIsHaptic(SDL_GameController* controller)
+{
+    return SDL_JoystickIsHaptic(SDL_GameControllerGetJoystick(controller));
+}
 
 /*
  * Opens a haptic device from a joystick.
@@ -330,6 +335,11 @@ SDL_HapticOpenFromJoystick(SDL_Joystick * joystick)
     return haptic;
 }
 
+
+SDL_Haptic *
+SDL_HapticOpenFromController(SDL_GameController* controller) {
+    return SDL_HapticOpenFromJoystick(controller);
+}
 
 /*
  * Closes a SDL_Haptic device.
@@ -850,6 +860,23 @@ SDL_HapticRumbleStop(SDL_Haptic * haptic)
     }
 
     return SDL_HapticStopEffect(haptic, haptic->rumble_id);
+}
+
+SDL_HapticData
+SDL_GetHapticData(SDL_Haptic* haptic) {
+    SDL_HapticData data;
+    SDL_zero(data);
+
+
+    if (!ValidHaptic(haptic))
+        return data;
+
+    data.rumbleSupport = ((haptic->supported & (SDL_HAPTIC_SINE | SDL_HAPTIC_LEFTRIGHT)) != 0);
+    data.effects = haptic->neffects;
+    data.axes = haptic->naxes;
+
+
+    return data;
 }
 
 /* vi: set ts=4 sw=4 expandtab: */

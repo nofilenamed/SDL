@@ -25,6 +25,16 @@
 extern int SDL_HapticInit(void);
 extern void SDL_HapticQuit(void);
 
+
+typedef struct SDL_HapticData {
+
+    int rumbleSupport; //    return ((haptic->supported & (SDL_HAPTIC_SINE|SDL_HAPTIC_LEFTRIGHT)) != 0);
+    int effects; //haptic->neffects
+    int axes; //haptic->naxes
+
+
+} SDL_HapticData;
+
 #endif /* SDL_haptic_c_h_ */
 
 /* vi: set ts=4 sw=4 expandtab: */

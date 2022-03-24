@@ -942,6 +942,8 @@ extern DECLSPEC SDL_Haptic *SDLCALL SDL_HapticOpenFromMouse(void);
  */
 extern DECLSPEC int SDLCALL SDL_JoystickIsHaptic(SDL_Joystick * joystick);
 
+
+extern DECLSPEC int SDLCALL SDL_ControllerIsHaptic(SDL_GameController* controller);
 /**
  * Open a haptic device for use from a joystick device.
  *
@@ -963,8 +965,9 @@ extern DECLSPEC int SDLCALL SDL_JoystickIsHaptic(SDL_Joystick * joystick);
  * \sa SDL_HapticOpen
  * \sa SDL_JoystickIsHaptic
  */
-extern DECLSPEC SDL_Haptic *SDLCALL SDL_HapticOpenFromJoystick(SDL_Joystick *
-                                                               joystick);
+extern DECLSPEC SDL_Haptic *SDLCALL SDL_HapticOpenFromJoystick(SDL_Joystick * joystick);
+
+extern DECLSPEC SDL_Haptic* SDLCALL SDL_HapticOpenFromController(SDL_GameController* controller);
 
 /**
  * Close a haptic device previously opened with SDL_HapticOpen().
@@ -1329,6 +1332,9 @@ extern DECLSPEC int SDLCALL SDL_HapticRumblePlay(SDL_Haptic * haptic, float stre
  * \sa SDL_HapticRumbleSupported
  */
 extern DECLSPEC int SDLCALL SDL_HapticRumbleStop(SDL_Haptic * haptic);
+
+
+extern DECLSPEC SDL_HapticData SDLCALL SDL_GetHapticData(SDL_Haptic* haptic)
 
 /* Ends C function definitions when using C++ */
 #ifdef __cplusplus
