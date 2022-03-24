@@ -193,10 +193,10 @@ typedef struct SDL_DisplayEvent
     Uint32 timestamp;   /**< In milliseconds, populated using SDL_GetTicks() */
     Uint32 display;     /**< The associated display index */
     Uint8 event;        /**< ::SDL_DisplayEventID */
-    Uint8 padding1;
-    Uint8 padding2;
-    Uint8 padding3;
     Sint32 data1;       /**< event dependent data */
+    //Uint8 padding1;
+    //Uint8 padding2;
+    //Uint8 padding3;
 } SDL_DisplayEvent;
 
 /**
@@ -208,11 +208,11 @@ typedef struct SDL_WindowEvent
     Uint32 timestamp;   /**< In milliseconds, populated using SDL_GetTicks() */
     Uint32 windowID;    /**< The associated window */
     Uint8 event;        /**< ::SDL_WindowEventID */
-    Uint8 padding1;
-    Uint8 padding2;
-    Uint8 padding3;
     Sint32 data1;       /**< event dependent data */
     Sint32 data2;       /**< event dependent data */
+    //Uint8 padding1;
+    //Uint8 padding2;
+    //Uint8 padding3;
 } SDL_WindowEvent;
 
 /**
@@ -225,9 +225,11 @@ typedef struct SDL_KeyboardEvent
     Uint32 windowID;    /**< The window with keyboard focus, if any */
     Uint8 state;        /**< ::SDL_PRESSED or ::SDL_RELEASED */
     Uint8 repeat;       /**< Non-zero if this is a key repeat */
-    Uint8 padding2;
-    Uint8 padding3;
-    SDL_Keysym keysym;  /**< The key that was pressed or released */
+    SDL_Scancode scancode;      /**< SDL physical key code - see ::SDL_Scancode for details */
+    SDL_Keycode sym;            /**< SDL virtual key code - see ::SDL_Keycode for details */
+    Uint16 mod;                 /**< current key modifiers */
+    //Uint8 padding1;
+    //Uint8 padding2;
 } SDL_KeyboardEvent;
 
 #define SDL_TEXTEDITINGEVENT_TEXT_SIZE (32)
@@ -298,9 +300,9 @@ typedef struct SDL_MouseButtonEvent
     Uint8 button;       /**< The mouse button index */
     Uint8 state;        /**< ::SDL_PRESSED or ::SDL_RELEASED */
     Uint8 clicks;       /**< 1 for single-click, 2 for double-click, etc. */
-    Uint8 padding1;
     Sint32 x;           /**< X coordinate, relative to window */
     Sint32 y;           /**< Y coordinate, relative to window */
+    //Uint8 padding1;
 } SDL_MouseButtonEvent;
 
 /**
@@ -328,11 +330,11 @@ typedef struct SDL_JoyAxisEvent
     Uint32 timestamp;   /**< In milliseconds, populated using SDL_GetTicks() */
     SDL_JoystickID which; /**< The joystick instance id */
     Uint8 axis;         /**< The joystick axis index */
-    Uint8 padding1;
-    Uint8 padding2;
-    Uint8 padding3;
     Sint16 value;       /**< The axis value (range: -32768 to 32767) */
-    Uint16 padding4;
+    //Uint8 padding1;
+    //Uint8 padding2;
+    //Uint8 padding3;
+    //Uint16 padding4;
 } SDL_JoyAxisEvent;
 
 /**
@@ -344,11 +346,11 @@ typedef struct SDL_JoyBallEvent
     Uint32 timestamp;   /**< In milliseconds, populated using SDL_GetTicks() */
     SDL_JoystickID which; /**< The joystick instance id */
     Uint8 ball;         /**< The joystick trackball index */
-    Uint8 padding1;
-    Uint8 padding2;
-    Uint8 padding3;
     Sint16 xrel;        /**< The relative motion in the X direction */
     Sint16 yrel;        /**< The relative motion in the Y direction */
+    //Uint8 padding1;
+    //Uint8 padding2;
+    //Uint8 padding3;
 } SDL_JoyBallEvent;
 
 /**
@@ -360,15 +362,9 @@ typedef struct SDL_JoyHatEvent
     Uint32 timestamp;   /**< In milliseconds, populated using SDL_GetTicks() */
     SDL_JoystickID which; /**< The joystick instance id */
     Uint8 hat;          /**< The joystick hat index */
-    Uint8 value;        /**< The hat position value.
-                         *   \sa ::SDL_HAT_LEFTUP ::SDL_HAT_UP ::SDL_HAT_RIGHTUP
-                         *   \sa ::SDL_HAT_LEFT ::SDL_HAT_CENTERED ::SDL_HAT_RIGHT
-                         *   \sa ::SDL_HAT_LEFTDOWN ::SDL_HAT_DOWN ::SDL_HAT_RIGHTDOWN
-                         *
-                         *   Note that zero means the POV is centered.
-                         */
-    Uint8 padding1;
-    Uint8 padding2;
+    Uint8 value;        /**< The hat position value. ::SDL_HAT_LEFTUP ::SDL_HAT_UP ::SDL_HAT_RIGHTUP || ::SDL_HAT_LEFT ::SDL_HAT_CENTERED ::SDL_HAT_RIGHT || ::SDL_HAT_LEFTDOWN ::SDL_HAT_DOWN ::SDL_HAT_RIGHTDOWN   Note that zero means the POV is centered.   */
+    //Uint8 padding1;
+    //Uint8 padding2;
 } SDL_JoyHatEvent;
 
 /**
@@ -381,8 +377,8 @@ typedef struct SDL_JoyButtonEvent
     SDL_JoystickID which; /**< The joystick instance id */
     Uint8 button;       /**< The joystick button index */
     Uint8 state;        /**< ::SDL_PRESSED or ::SDL_RELEASED */
-    Uint8 padding1;
-    Uint8 padding2;
+    //Uint8 padding1;
+    //Uint8 padding2;
 } SDL_JoyButtonEvent;
 
 /**
@@ -405,11 +401,11 @@ typedef struct SDL_ControllerAxisEvent
     Uint32 timestamp;   /**< In milliseconds, populated using SDL_GetTicks() */
     SDL_JoystickID which; /**< The joystick instance id */
     Uint8 axis;         /**< The controller axis (SDL_GameControllerAxis) */
-    Uint8 padding1;
-    Uint8 padding2;
-    Uint8 padding3;
     Sint16 value;       /**< The axis value (range: -32768 to 32767) */
-    Uint16 padding4;
+    //Uint8 padding1;
+    //Uint8 padding2;
+    //Uint8 padding3;
+    //Uint16 padding4;
 } SDL_ControllerAxisEvent;
 
 
@@ -423,8 +419,8 @@ typedef struct SDL_ControllerButtonEvent
     SDL_JoystickID which; /**< The joystick instance id */
     Uint8 button;       /**< The controller button (SDL_GameControllerButton) */
     Uint8 state;        /**< ::SDL_PRESSED or ::SDL_RELEASED */
-    Uint8 padding1;
-    Uint8 padding2;
+    //Uint8 padding1;
+    //Uint8 padding2;
 } SDL_ControllerButtonEvent;
 
 
@@ -474,9 +470,9 @@ typedef struct SDL_AudioDeviceEvent
     Uint32 timestamp;   /**< In milliseconds, populated using SDL_GetTicks() */
     Uint32 which;       /**< The audio device index for the ADDED event (valid until next SDL_GetNumAudioDevices() call), SDL_AudioDeviceID for the REMOVED event */
     Uint8 iscapture;    /**< zero if an output device, non-zero if a capture device. */
-    Uint8 padding1;
-    Uint8 padding2;
-    Uint8 padding3;
+    //Uint8 padding1;
+    //Uint8 padding2;
+    //Uint8 padding3;
 } SDL_AudioDeviceEvent;
 
 
@@ -511,7 +507,7 @@ typedef struct SDL_MultiGestureEvent
     float x;
     float y;
     Uint16 numFingers;
-    Uint16 padding;
+    //Uint16 padding;
 } SDL_MultiGestureEvent;
 
 
@@ -614,30 +610,43 @@ typedef union SDL_Event
     SDL_DisplayEvent display;               /**< Display event data */
     SDL_WindowEvent window;                 /**< Window event data */
     SDL_KeyboardEvent key;                  /**< Keyboard event data */
+   
     SDL_TextEditingEvent edit;              /**< Text editing event data */
     SDL_TextEditingExtEvent editExt;        /**< Extended text editing event data */
     SDL_TextInputEvent text;                /**< Text input event data */
+    
     SDL_MouseMotionEvent motion;            /**< Mouse motion event data */
     SDL_MouseButtonEvent button;            /**< Mouse button event data */
     SDL_MouseWheelEvent wheel;              /**< Mouse wheel event data */
+    
     SDL_JoyAxisEvent jaxis;                 /**< Joystick axis event data */
     SDL_JoyBallEvent jball;                 /**< Joystick ball event data */
     SDL_JoyHatEvent jhat;                   /**< Joystick hat event data */
     SDL_JoyButtonEvent jbutton;             /**< Joystick button event data */
     SDL_JoyDeviceEvent jdevice;             /**< Joystick device change event data */
+    
     SDL_ControllerAxisEvent caxis;          /**< Game Controller axis event data */
     SDL_ControllerButtonEvent cbutton;      /**< Game Controller button event data */
     SDL_ControllerDeviceEvent cdevice;      /**< Game Controller device event data */
     SDL_ControllerTouchpadEvent ctouchpad;  /**< Game Controller touchpad event data */
     SDL_ControllerSensorEvent csensor;      /**< Game Controller sensor event data */
+    
     SDL_AudioDeviceEvent adevice;           /**< Audio device event data */
+    
     SDL_SensorEvent sensor;                 /**< Sensor event data */
+    
     SDL_QuitEvent quit;                     /**< Quit request event data */
+    
     SDL_UserEvent user;                     /**< Custom event data */
+    
     SDL_SysWMEvent syswm;                   /**< System dependent window event data */
+    
     SDL_TouchFingerEvent tfinger;           /**< Touch finger event data */
+    
     SDL_MultiGestureEvent mgesture;         /**< Gesture event data */
+    
     SDL_DollarGestureEvent dgesture;        /**< Gesture event data */
+    
     SDL_DropEvent drop;                     /**< Drag and drop event data */
 
     /* This is necessary for ABI compatibility between Visual C++ and GCC.
@@ -653,11 +662,11 @@ typedef union SDL_Event
        the next multiple of 16, 64, and on architectures where pointers are
        even larger the size of SDL_UserEvent will dominate as being 3 pointers.
     */
-    Uint8 padding[sizeof(void *) <= 8 ? 56 : sizeof(void *) == 16 ? 64 : 3 * sizeof(void *)];
+    //Uint8 padding[sizeof(void *) <= 8 ? 56 : sizeof(void *) == 16 ? 64 : 3 * sizeof(void *)];
 } SDL_Event;
 
 /* Make sure we haven't broken binary compatibility */
-SDL_COMPILE_TIME_ASSERT(SDL_Event, sizeof(SDL_Event) == sizeof(((SDL_Event *)NULL)->padding));
+//SDL_COMPILE_TIME_ASSERT(SDL_Event, sizeof(SDL_Event) == sizeof(((SDL_Event *)NULL)->padding));
 
 
 /* Function prototypes */

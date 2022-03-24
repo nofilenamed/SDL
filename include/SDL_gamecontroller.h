@@ -90,15 +90,34 @@ typedef struct SDL_GameControllerButtonBind
     {
         int button;
         int axis;
-        struct {
-            int hat;
-            int hat_mask;
-        } hat;
+        int hat;
+        int hat_mask;
     } value;
 
 } SDL_GameControllerButtonBind;
 
 
+typedef struct SDL_GameControllerData
+{
+    SDL_JoystickID instance; //SDL_JoystickInstanceID
+
+    const char* name;
+    Uint16 vendor;
+    Uint16 product;
+    Uint16 version;
+
+    SDL_bool rumble;
+    SDL_bool rumbleTrigger;
+    SDL_bool led;
+
+    int axes; //SDL_JoystickNumAxes
+    int hats; //SDL_JoystickNumHats
+    int balls; //SDL_JoystickNumBalls
+    int button; //SDL_JoystickNumButtons
+
+    int touchpad; //SDL_GameControllerGetNumTouchpads
+
+} SDL_GameControllerData;
 /**
  *  To count the number of game controllers in the system for the following:
  *

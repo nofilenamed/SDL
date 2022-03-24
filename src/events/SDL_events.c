@@ -269,9 +269,9 @@ SDL_LogEvent(const SDL_Event *event)
                 (uint) event->key.timestamp, (uint) event->key.windowID, \
                 event->key.state == SDL_PRESSED ? "pressed" : "released", \
                 event->key.repeat ? "true" : "false", \
-                (uint) event->key.keysym.scancode, \
-                (uint) event->key.keysym.sym, \
-                (uint) event->key.keysym.mod)
+                (uint) event->key.scancode, \
+                (uint) event->key.sym, \
+                (uint) event->key.mod)
         SDL_EVENT_CASE(SDL_KEYDOWN) PRINT_KEY_EVENT(event); break;
         SDL_EVENT_CASE(SDL_KEYUP) PRINT_KEY_EVENT(event); break;
         #undef PRINT_KEY_EVENT

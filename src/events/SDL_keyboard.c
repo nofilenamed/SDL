@@ -785,9 +785,9 @@ SDL_SendKeyboardKeyInternal(Uint8 source, Uint8 state, SDL_Scancode scancode)
         event.key.type = type;
         event.key.state = state;
         event.key.repeat = repeat;
-        event.key.keysym.scancode = scancode;
-        event.key.keysym.sym = keycode;
-        event.key.keysym.mod = keyboard->modstate;
+        event.key.scancode = scancode;
+        event.key.sym = keycode;
+        event.key.mod = keyboard->modstate;
         event.key.windowID = keyboard->focus ? keyboard->focus->id : 0;
         posted = (SDL_PushEvent(&event) > 0);
     }

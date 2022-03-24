@@ -2422,8 +2422,8 @@ SDL_GameControllerButtonBind SDL_GameControllerGetBindForAxis(SDL_GameController
             } else if (binding->inputType == SDL_CONTROLLER_BINDTYPE_BUTTON) {
                 bind.value.button = binding->input.button;
             } else if (binding->inputType == SDL_CONTROLLER_BINDTYPE_HAT) {
-                bind.value.hat.hat = binding->input.hat.hat;
-                bind.value.hat.hat_mask = binding->input.hat.hat_mask;
+                bind.value.hat = binding->input.hat.hat;
+                bind.value.hat_mask = binding->input.hat.hat_mask;
             }
             break;
         }
@@ -2453,8 +2453,8 @@ SDL_GameControllerButtonBind SDL_GameControllerGetBindForButton(SDL_GameControll
             } else if (binding->inputType == SDL_CONTROLLER_BINDTYPE_BUTTON) {
                 bind.value.button = binding->input.button;
             } else if (binding->inputType == SDL_CONTROLLER_BINDTYPE_HAT) {
-                bind.value.hat.hat = binding->input.hat.hat;
-                bind.value.hat.hat_mask = binding->input.hat.hat_mask;
+                bind.value.hat = binding->input.hat.hat;
+                bind.value.hat_mask = binding->input.hat.hat_mask;
             }
             break;
         }
@@ -2742,5 +2742,42 @@ SDL_GameControllerGetAppleSFSymbolsNameForAxis(SDL_GameController *gamecontrolle
     return NULL;
 #endif
 }
+
+
+
+SDL_GameControllerData SDL_GetControllerData(SDL_GameController* gamecontroller) {
+    
+    SDL_Joystick* joystick = SDL_GameControllerGetJoystick(gamecontroller);
+   
+    SDL_GameControllerData data;
+    
+    if (joystick == NULL)
+    {
+        data.instance = -1;
+        return;
+    }
+
+    data.instance = joystick->instance_id;
+
+    data.name = SDL_GameControllerName(gamecontroller);
+
+
+    data.vendor = SDL_JoystickGetVendor(joystick);
+    data.product = SDL_JoystickGetProduct(joystick);
+    data.version = SDL_JoystickGetProductVersion(joystick);
+
+    data.rumble = SDL_JoystickHasRumble(joystick);
+    data.rumbleTrigger = SDL_JoystickHasRumbleTriggers(joystick);
+    data.led = SDL_JoystickHasLED(joystick);
+
+    data.axes = SDL_JoystickNumAxes(joystick);
+    data.hats = SDL_JoystickNumHats(joystick);
+    data.balls = SDL_JoystickNumBalls(joystick);
+    data.button = SDL_JoystickNumButtons(joystick);
+
+    data.touchpad = joystick->touchpads;
+    return data;
+}
+
 
 /* vi: set ts=4 sw=4 expandtab: */
