@@ -110,6 +110,7 @@
 #include "SDL_stdinc.h"
 #include "SDL_error.h"
 #include "SDL_joystick.h"
+#include "SDL_gamecontroller.h"
 
 #include "begin_code.h"
 /* Set up for C function definitions, even when using C++ */
@@ -140,6 +141,16 @@ extern "C" {
 struct _SDL_Haptic;
 typedef struct _SDL_Haptic SDL_Haptic;
 
+
+
+typedef struct SDL_HapticData {
+
+    int rumbleSupport; //    return ((haptic->supported & (SDL_HAPTIC_SINE|SDL_HAPTIC_LEFTRIGHT)) != 0);
+    int effects; //haptic->neffects
+    int axes; //haptic->naxes
+
+
+} SDL_HapticData;
 
 /**
  *  \name Haptic features
@@ -943,7 +954,7 @@ extern DECLSPEC SDL_Haptic *SDLCALL SDL_HapticOpenFromMouse(void);
 extern DECLSPEC int SDLCALL SDL_JoystickIsHaptic(SDL_Joystick * joystick);
 
 
-extern DECLSPEC int SDLCALL SDL_ControllerIsHaptic(SDL_GameController* controller);
+//extern DECLSPEC int SDLCALL SDL_ControllerIsHaptic(SDL_GameController* controller);
 /**
  * Open a haptic device for use from a joystick device.
  *
@@ -1334,7 +1345,10 @@ extern DECLSPEC int SDLCALL SDL_HapticRumblePlay(SDL_Haptic * haptic, float stre
 extern DECLSPEC int SDLCALL SDL_HapticRumbleStop(SDL_Haptic * haptic);
 
 
-extern DECLSPEC SDL_HapticData SDLCALL SDL_GetHapticData(SDL_Haptic* haptic)
+
+//extern DECLSPEC SDL_HapticData SDLCALL SDL_GetHapticData(SDL_Haptic *haptic);
+
+
 
 /* Ends C function definitions when using C++ */
 #ifdef __cplusplus

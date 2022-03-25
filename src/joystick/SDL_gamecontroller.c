@@ -2766,14 +2766,18 @@ SDL_GetControllerData(SDL_GameController* gamecontroller) {
     data.value.product = SDL_JoystickGetProduct(joystick);
     data.value.version = SDL_JoystickGetProductVersion(joystick);
 
-    data.value.rumble = SDL_JoystickHasRumble(joystick);
-    data.value.rumbleTrigger = SDL_JoystickHasRumbleTriggers(joystick);
-    data.value.led =SDL_JoystickHasLED(joystick);
+    SDL_LockJoysticks();
 
-    data.value.axes = joystick->naxes;// SDL_JoystickNumAxes(joystick);
+    data.value.rumble = (joystick->driver->GetCapabilities(joystick) & SDL_JOYCAP_RUMBLE) != 0;
+    data.value.rumbleTrigger = (joystick->driver->GetCapabilities(joystick) & SDL_JOYCAP_RUMBLE_TRIGGERS) != 0;
+    data.value.led = (joystick->driver->GetCapabilities(joystick) & SDL_JOYCAP_LED) != 0;
+
+    SDL_UnlockJoysticks();
+
+    data.value.axes = joystick->naxes; //SDL_JoystickNumAxes(joystick);
     data.value.hats = joystick->nhats; //SDL_JoystickNumHats(joystick);
     data.value.balls = joystick->nballs;// SDL_JoystickNumBalls(joystick);
-    data.value.button = joystick->nbuttons;// SDL_JoystickNumButtons(joystick);
+    data.value.buttons = joystick->nbuttons;// SDL_JoystickNumButtons(joystick);
 
     data.value.haptic  = SDL_SYS_JoystickIsHaptic(joystick) > 0;
     data.value.touchpad = joystick->ntouchpads;

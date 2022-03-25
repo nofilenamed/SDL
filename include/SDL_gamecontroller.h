@@ -113,9 +113,9 @@ typedef struct SDL_GameControllerData
         int axes; //SDL_JoystickNumAxes
         int hats; //SDL_JoystickNumHats
         int balls; //SDL_JoystickNumBalls
-        int button; //SDL_JoystickNumButtons
+        int buttons; //SDL_JoystickNumButtons
 
-        int haptic;
+        SDL_bool haptic;
         int touchpad; //SDL_GameControllerGetNumTouchpads
     } value;
 
@@ -1013,7 +1013,7 @@ extern DECLSPEC const char* SDLCALL SDL_GameControllerGetAppleSFSymbolsNameForAx
 
 
 
-extern DECLSPEC SDL_GameControllerData SDLCALL SDL_GetControllerData(SDL_GameController* gamecontroller);
+extern DECLSPEC SDL_GameControllerData SDLCALL SDL_GetControllerData(SDL_GameController *gamecontroller);
 /* Ends C function definitions when using C++ */
 #ifdef __cplusplus
 }

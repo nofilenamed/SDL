@@ -338,7 +338,7 @@ SDL_HapticOpenFromJoystick(SDL_Joystick * joystick)
 
 SDL_Haptic *
 SDL_HapticOpenFromController(SDL_GameController* controller) {
-    return SDL_HapticOpenFromJoystick(controller);
+    return SDL_HapticOpenFromJoystick(SDL_GameControllerGetJoystick(controller));
 }
 
 /*

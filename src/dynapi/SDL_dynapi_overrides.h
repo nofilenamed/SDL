@@ -148,6 +148,7 @@
 #define SDL_GameControllerGetBindForAxis SDL_GameControllerGetBindForAxis_REAL
 #define SDL_GameControllerGetAxis SDL_GameControllerGetAxis_REAL
 #define SDL_GameControllerGetButtonFromString SDL_GameControllerGetButtonFromString_REAL
+#define SDL_GetControllerData SDL_GetControllerData_REAL
 #define SDL_GameControllerGetStringForButton SDL_GameControllerGetStringForButton_REAL
 #define SDL_GameControllerGetBindForButton SDL_GameControllerGetBindForButton_REAL
 #define SDL_GameControllerGetButton SDL_GameControllerGetButton_REAL
@@ -164,7 +165,9 @@
 #define SDL_MouseIsHaptic SDL_MouseIsHaptic_REAL
 #define SDL_HapticOpenFromMouse SDL_HapticOpenFromMouse_REAL
 #define SDL_JoystickIsHaptic SDL_JoystickIsHaptic_REAL
+#define SDL_ControllerIsHaptic SDL_ControllersHaptic_REAL
 #define SDL_HapticOpenFromJoystick SDL_HapticOpenFromJoystick_REAL
+#define SDL_HapticOpenFromController SDL_HapticOpenFromController_REAL
 #define SDL_HapticClose SDL_HapticClose_REAL
 #define SDL_HapticNumEffects SDL_HapticNumEffects_REAL
 #define SDL_HapticNumEffectsPlaying SDL_HapticNumEffectsPlaying_REAL
@@ -186,6 +189,7 @@
 #define SDL_HapticRumbleInit SDL_HapticRumbleInit_REAL
 #define SDL_HapticRumblePlay SDL_HapticRumblePlay_REAL
 #define SDL_HapticRumbleStop SDL_HapticRumbleStop_REAL
+#define SDL_GetHapticData SDL_GetHapticData_REAL
 #define SDL_SetHintWithPriority SDL_SetHintWithPriority_REAL
 #define SDL_SetHint SDL_SetHint_REAL
 #define SDL_GetHint SDL_GetHint_REAL
