@@ -107,7 +107,7 @@ typedef struct SDL_GameControllerData
         Uint16 version;
 
         SDL_bool rumble;
-        SDL_bool rumbleTrigger;
+        SDL_bool impulse;
         SDL_bool led;
 
         int axes; //SDL_JoystickNumAxes

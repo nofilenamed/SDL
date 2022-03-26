@@ -558,16 +558,16 @@ WatchJoystick(SDL_Joystick * joystick)
                 SetCurrentBinding(s_iCurrentBinding + 1);
                 break;
             case SDL_KEYDOWN:
-                if (event.key.keysym.sym == SDLK_BACKSPACE || event.key.keysym.sym == SDLK_AC_BACK) {
+                if (event.key.sym == SDLK_BACKSPACE || event.key.sym == SDLK_AC_BACK) {
                     SetCurrentBinding(s_iCurrentBinding - 1);
                     break;
                 }
-                if (event.key.keysym.sym == SDLK_SPACE) {
+                if (event.key.sym == SDLK_SPACE) {
                     SetCurrentBinding(s_iCurrentBinding + 1);
                     break;
                 }
 
-                if ((event.key.keysym.sym != SDLK_ESCAPE)) {
+                if ((event.key.sym != SDLK_ESCAPE)) {
                     break;
                 }
                 SDL_FALLTHROUGH;
@@ -764,7 +764,7 @@ main(int argc, char *argv[])
         while (SDL_PollEvent(&event) > 0) {
             switch (event.type) {
             case SDL_KEYDOWN:
-                if ((event.key.keysym.sym != SDLK_ESCAPE)) {
+                if ((event.key.sym != SDLK_ESCAPE)) {
                     break;
                 }
                 SDL_FALLTHROUGH;

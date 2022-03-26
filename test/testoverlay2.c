@@ -200,11 +200,11 @@ loop()
             }
             break;
         case SDL_KEYDOWN:
-            if (event.key.keysym.sym == SDLK_SPACE) {
+            if (event.key.sym == SDLK_SPACE) {
                 paused = !paused;
                 break;
             }
-            if (event.key.keysym.sym != SDLK_ESCAPE) {
+            if (event.key.sym != SDLK_ESCAPE) {
                 break;
             }
         case SDL_QUIT:

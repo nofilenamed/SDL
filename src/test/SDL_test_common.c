@@ -1555,16 +1555,16 @@ SDLTest_PrintEvent(SDL_Event * event)
     case SDL_KEYDOWN:
         SDL_Log("SDL EVENT: Keyboard: key pressed  in window %" SDL_PRIu32 ": scancode 0x%08X = %s, keycode 0x%08" SDL_PRIX32 " = %s",
                 event->key.windowID,
-                event->key.keysym.scancode,
-                SDL_GetScancodeName(event->key.keysym.scancode),
-                event->key.keysym.sym, SDL_GetKeyName(event->key.keysym.sym));
+                event->key.scancode,
+                SDL_GetScancodeName(event->key.scancode),
+                event->key.sym, SDL_GetKeyName(event->key.sym));
         break;
     case SDL_KEYUP:
         SDL_Log("SDL EVENT: Keyboard: key released in window %" SDL_PRIu32 ": scancode 0x%08X = %s, keycode 0x%08" SDL_PRIX32 " = %s",
                 event->key.windowID,
-                event->key.keysym.scancode,
-                SDL_GetScancodeName(event->key.keysym.scancode),
-                event->key.keysym.sym, SDL_GetKeyName(event->key.keysym.sym));
+                event->key.scancode,
+                SDL_GetScancodeName(event->key.scancode),
+                event->key.sym, SDL_GetKeyName(event->key.sym));
         break;
     case SDL_TEXTEDITING:
         SDL_Log("SDL EVENT: Keyboard: text editing \"%s\" in window %" SDL_PRIu32,
@@ -1865,11 +1865,11 @@ SDLTest_CommonEvent(SDLTest_CommonState * state, SDL_Event * event, int *done)
         }
         break;
     case SDL_KEYDOWN: {
-        SDL_bool withControl = !!(event->key.keysym.mod & KMOD_CTRL);
-        SDL_bool withShift = !!(event->key.keysym.mod & KMOD_SHIFT);
-        SDL_bool withAlt = !!(event->key.keysym.mod & KMOD_ALT);
+        SDL_bool withControl = !!(event->key.mod & KMOD_CTRL);
+        SDL_bool withShift = !!(event->key.mod & KMOD_SHIFT);
+        SDL_bool withAlt = !!(event->key.mod & KMOD_ALT);
 
-        switch (event->key.keysym.sym) {
+        switch (event->key.sym) {
             /* Add hotkeys here */
         case SDLK_PRINTSCREEN: {
                 SDL_Window *window = SDL_GetWindowFromID(event->key.windowID);
@@ -1917,7 +1917,7 @@ SDLTest_CommonEvent(SDLTest_CommonState * state, SDL_Event * event, int *done)
 
                     if (currentIndex >= 0 && numDisplays >= 1) {
                         int dest;
-                        if (event->key.keysym.sym == SDLK_UP || event->key.keysym.sym == SDLK_LEFT) {
+                        if (event->key.sym == SDLK_UP || event->key.sym == SDLK_LEFT) {
                             dest = (currentIndex + numDisplays - 1) % numDisplays;
                         } else {
                             dest = (currentIndex + numDisplays + 1) % numDisplays;
@@ -1937,10 +1937,10 @@ SDLTest_CommonEvent(SDLTest_CommonState * state, SDL_Event * event, int *done)
                     int x, y;
                     SDL_GetWindowPosition(window, &x, &y);
 
-                    if (event->key.keysym.sym == SDLK_UP)    y -= delta;
-                    if (event->key.keysym.sym == SDLK_DOWN)  y += delta;
-                    if (event->key.keysym.sym == SDLK_LEFT)  x -= delta;
-                    if (event->key.keysym.sym == SDLK_RIGHT) x += delta;
+                    if (event->key.sym == SDLK_UP)    y -= delta;
+                    if (event->key.sym == SDLK_DOWN)  y += delta;
+                    if (event->key.sym == SDLK_LEFT)  x -= delta;
+                    if (event->key.sym == SDLK_RIGHT) x += delta;
 
                     SDL_Log("Setting position to (%d, %d)\n", x, y);
                     SDL_SetWindowPosition(window, x, y);

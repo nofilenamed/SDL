@@ -105,7 +105,7 @@ PrintModifierState()
 }
 
 static void
-PrintKey(SDL_Keysym * sym, SDL_bool pressed, SDL_bool repeat)
+PrintKey(SDL_Scancode scancode, SDL_bool pressed, SDL_bool repeat)
 {
     char message[512];
     char *spot;
@@ -115,19 +115,11 @@ PrintKey(SDL_Keysym * sym, SDL_bool pressed, SDL_bool repeat)
     left = sizeof(message);
 
     /* Print the keycode, name and state */
-    if (sym->sym) {
+    if (scancode) {
         print_string(&spot, &left,
-                "Key %s:  scancode %d = %s, keycode 0x%08X = %s ",
-                pressed ? "pressed " : "released",
-                sym->scancode,
-                SDL_GetScancodeName(sym->scancode),
-                sym->sym, SDL_GetKeyName(sym->sym));
+            "Key %s:  scancode %d = %s, keycode 0x%08X = %s ", pressed ? "pressed " : "released", scancode, SDL_GetScancodeName(scancode), scancode, SDL_GetKeyName(scancode));
     } else {
-        print_string(&spot, &left,
-                "Unknown Key (scancode %d = %s) %s ",
-                sym->scancode,
-                SDL_GetScancodeName(sym->scancode),
-                pressed ? "pressed " : "released");
+        print_string(&spot, &left, "Unknown Key (scancode %d = %s) %s ", scancode, SDL_GetScancodeName(scancode), pressed ? "pressed " : "released");
     }
     print_modifiers(&spot, &left);
     if (repeat) {
@@ -162,7 +154,7 @@ loop()
         switch (event.type) {
         case SDL_KEYDOWN:
         case SDL_KEYUP:
-            PrintKey(&event.key.keysym, (event.key.state == SDL_PRESSED) ? SDL_TRUE : SDL_FALSE, (event.key.repeat) ? SDL_TRUE : SDL_FALSE);
+            PrintKey(event.key.scancode, (event.key.state == SDL_PRESSED) ? SDL_TRUE : SDL_FALSE, (event.key.repeat) ? SDL_TRUE : SDL_FALSE);
             break;
         case SDL_TEXTEDITING:
             PrintText("EDIT", event.text.text);

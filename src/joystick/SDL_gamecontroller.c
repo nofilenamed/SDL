@@ -2768,9 +2768,9 @@ SDL_GetControllerData(SDL_GameController* gamecontroller) {
 
     SDL_LockJoysticks();
 
-    data.value.rumble = (joystick->driver->GetCapabilities(joystick) & SDL_JOYCAP_RUMBLE) != 0;
-    data.value.rumbleTrigger = (joystick->driver->GetCapabilities(joystick) & SDL_JOYCAP_RUMBLE_TRIGGERS) != 0;
-    data.value.led = (joystick->driver->GetCapabilities(joystick) & SDL_JOYCAP_LED) != 0;
+    data.value.rumble = (joystick->driver->GetCapabilities(joystick) & SDL_JOYCAP_RUMBLE) == SDL_JOYCAP_RUMBLE;
+    data.value.impulse = (joystick->driver->GetCapabilities(joystick) & SDL_JOYCAP_RUMBLE_TRIGGERS) == SDL_JOYCAP_RUMBLE_TRIGGERS;
+    data.value.led = (joystick->driver->GetCapabilities(joystick) & SDL_JOYCAP_LED) == SDL_JOYCAP_LED;
 
     SDL_UnlockJoysticks();
 

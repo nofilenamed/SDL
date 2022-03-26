@@ -186,7 +186,7 @@ loop(void)
 
         switch (event.type) {
             case SDL_KEYDOWN:
-                switch (event.key.keysym.sym) {
+                switch (event.key.sym) {
                     case SDLK_i: {
                         for (i = 0; i < SDL_GetNumTouchDevices(); ++i) {
                             const SDL_TouchID id = SDL_GetTouchDevice(i);

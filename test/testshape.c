@@ -157,7 +157,7 @@ int main(int argc,char** argv)
         while (SDL_PollEvent(&event)) {
             if(event.type == SDL_KEYDOWN) {
                 button_down = 1;
-                if(event.key.keysym.sym == SDLK_ESCAPE) {
+                if(event.key.sym == SDLK_ESCAPE) {
                     should_exit = 1;
                     break;
                 }

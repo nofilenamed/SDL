@@ -410,11 +410,11 @@ main(int argc, char **argv)
                     done = 1;
                 }
                 if (event.type == SDL_KEYDOWN) {
-                    if (event.key.keysym.sym == SDLK_ESCAPE) {
+                    if (event.key.sym == SDLK_ESCAPE) {
                         done = 1;
-                    } else if (event.key.keysym.sym == SDLK_LEFT) {
+                    } else if (event.key.sym == SDLK_LEFT) {
                         --current;
-                    } else if (event.key.keysym.sym == SDLK_RIGHT) {
+                    } else if (event.key.sym == SDLK_RIGHT) {
                         ++current;
                     }
                 }
