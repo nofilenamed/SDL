@@ -265,6 +265,13 @@ SDL_LogEvent(const SDL_Event *event)
             break;
 
         #define PRINT_KEY_EVENT(event) \
+            SDL_snprintf(details, sizeof (details), " (timestamp=%u windowid=%u mod=%u)", \
+                (uint) event->key.timestamp, (uint) event->key.windowID, (uint) event->key.mod)
+        SDL_EVENT_CASE(SDL_KEYDOWN) PRINT_KEY_EVENT(event); break;
+        SDL_EVENT_CASE(SDL_KEYUP) PRINT_KEY_EVENT(event); break;
+        #undef PRINT_KEY_EVENT
+
+        /*#define PRINT_KEY_EVENT(event) \
             SDL_snprintf(details, sizeof (details), " (timestamp=%u windowid=%u state=%s repeat=%s scancode=%u keycode=%u mod=%u)", \
                 (uint) event->key.timestamp, (uint) event->key.windowID, \
                 event->key.state == SDL_PRESSED ? "pressed" : "released", \
@@ -274,7 +281,7 @@ SDL_LogEvent(const SDL_Event *event)
                 (uint) event->key.mod)
         SDL_EVENT_CASE(SDL_KEYDOWN) PRINT_KEY_EVENT(event); break;
         SDL_EVENT_CASE(SDL_KEYUP) PRINT_KEY_EVENT(event); break;
-        #undef PRINT_KEY_EVENT
+        #undef PRINT_KEY_EVENT*/
 
         SDL_EVENT_CASE(SDL_TEXTEDITING)
             SDL_snprintf(details, sizeof (details), " (timestamp=%u windowid=%u text='%s' start=%d length=%d)",
