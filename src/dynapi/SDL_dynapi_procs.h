@@ -178,6 +178,7 @@ SDL_DYNAPI_PROC(SDL_GameControllerAxis,SDL_GameControllerGetAxisFromString,(cons
 SDL_DYNAPI_PROC(const char*,SDL_GameControllerGetStringForAxis,(SDL_GameControllerAxis a),(a),return)
 SDL_DYNAPI_PROC(SDL_GameControllerButtonBind,SDL_GameControllerGetBindForAxis,(SDL_GameController *a, SDL_GameControllerAxis b),(a,b),return)
 SDL_DYNAPI_PROC(Sint16,SDL_GameControllerGetAxis,(SDL_GameController *a, SDL_GameControllerAxis b),(a,b),return)
+SDL_DYNAPI_PROC(Sint16,SDL_GameControllerGetAxisOut,(SDL_GameController *a, SDL_GameControllerAxis b, SDL_GameControllerAxis c, float *d, float *e),(a, b, c, d, e),return)
 SDL_DYNAPI_PROC(SDL_GameControllerButton,SDL_GameControllerGetButtonFromString,(const char *a),(a),return)
 SDL_DYNAPI_PROC(const char*,SDL_GameControllerGetStringForButton,(SDL_GameControllerButton a),(a),return)
 SDL_DYNAPI_PROC(SDL_GameControllerButtonBind,SDL_GameControllerGetBindForButton,(SDL_GameController *a, SDL_GameControllerButton b),(a,b),return)

@@ -670,6 +670,10 @@ SDL_GameControllerHasAxis(SDL_GameController *gamecontroller, SDL_GameController
 extern DECLSPEC Sint16 SDLCALL
 SDL_GameControllerGetAxis(SDL_GameController *gamecontroller, SDL_GameControllerAxis axis);
 
+extern DECLSPEC Sint16 SDLCALL
+SDL_GameControllerGetAxisOut(SDL_GameController* gamecontroller, SDL_GameControllerAxis axisX, SDL_GameControllerAxis axisY, float * x, float* y);
+
+
 /**
  *  The list of buttons available from a controller
  */

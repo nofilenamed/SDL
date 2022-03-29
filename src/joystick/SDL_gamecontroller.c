@@ -1985,12 +1985,10 @@ SDL_GameControllerHasAxis(SDL_GameController *gamecontroller, SDL_GameController
 Sint16
 SDL_GameControllerGetAxis(SDL_GameController *gamecontroller, SDL_GameControllerAxis axis)
 {
-    int i;
-
     if (!gamecontroller)
         return 0;
 
-    for (i = 0; i < gamecontroller->num_bindings; ++i) {
+    for (int i = 0; i < gamecontroller->num_bindings; ++i) {
         SDL_ExtendedGameControllerBind *binding = &gamecontroller->bindings[i];
         if (binding->outputType == SDL_CONTROLLER_BINDTYPE_AXIS && binding->output.axis.axis == axis) {
             int value = 0;
@@ -2036,6 +2034,88 @@ SDL_GameControllerGetAxis(SDL_GameController *gamecontroller, SDL_GameController
         }
     }
     return 0;
+}
+
+Sint16
+SDL_GameControllerGetAxisOut(SDL_GameController* gamecontroller, SDL_GameControllerAxis axisX, SDL_GameControllerAxis axisY, float * x, float* y)
+{
+    if (!gamecontroller)
+        return 0;
+
+    int axis = 0;
+
+    for (int i = 0; i < gamecontroller->num_bindings; ++i) {
+        SDL_ExtendedGameControllerBind* binding = &gamecontroller->bindings[i];
+       
+        if (binding->outputType == SDL_CONTROLLER_BINDTYPE_AXIS){
+        
+            if (binding->output.axis.axis == axisX)
+            {
+                axis = 1;
+            }
+            else if (binding->output.axis.axis == axisY)
+            {
+                axis = 2;
+            }
+
+            if (axis > 0) {
+                int value = 0;
+                SDL_bool valid_input_range;
+                SDL_bool valid_output_range;
+
+                if (binding->inputType == SDL_CONTROLLER_BINDTYPE_AXIS) {
+                    value = SDL_JoystickGetAxis(gamecontroller->joystick, binding->input.axis.axis);
+                    if (binding->input.axis.axis_min < binding->input.axis.axis_max) {
+                        valid_input_range = (value >= binding->input.axis.axis_min && value <= binding->input.axis.axis_max);
+                    }
+                    else {
+                        valid_input_range = (value >= binding->input.axis.axis_max && value <= binding->input.axis.axis_min);
+                    }
+                    if (valid_input_range) {
+                        if (binding->input.axis.axis_min != binding->output.axis.axis_min || binding->input.axis.axis_max != binding->output.axis.axis_max) {
+                            float normalized_value = (float)(value - binding->input.axis.axis_min) / (binding->input.axis.axis_max - binding->input.axis.axis_min);
+                            value = binding->output.axis.axis_min + (int)(normalized_value * (binding->output.axis.axis_max - binding->output.axis.axis_min));
+                        }
+                    }
+                    else {
+                        value = 0;
+                    }
+                }
+                else if (binding->inputType == SDL_CONTROLLER_BINDTYPE_BUTTON) {
+                    value = SDL_JoystickGetButton(gamecontroller->joystick, binding->input.button);
+                    if (value == SDL_PRESSED) {
+                        value = binding->output.axis.axis_max;
+                    }
+                }
+                else if (binding->inputType == SDL_CONTROLLER_BINDTYPE_HAT) {
+                    int hat_mask = SDL_JoystickGetHat(gamecontroller->joystick, binding->input.hat.hat);
+                    if (hat_mask & binding->input.hat.hat_mask) {
+                        value = binding->output.axis.axis_max;
+                    }
+                }
+
+                if (binding->output.axis.axis_min < binding->output.axis.axis_max) {
+                    valid_output_range = (value >= binding->output.axis.axis_min && value <= binding->output.axis.axis_max);
+                }
+                else {
+                    valid_output_range = (value >= binding->output.axis.axis_max && value <= binding->output.axis.axis_min);
+                }
+                /* If the value is zero, there might be another binding that makes it non-zero */
+                if (value != 0 && valid_output_range) {
+                    if (axis == 1) {
+                        *x = (float)value / 32767;
+                        axis = 0;
+                    }
+                    else if (axis == 2) {
+                        *y = (float)value / 32767;
+                        axis = 0;
+                    }
+                }
+            }
+        }
+    }
+
+    return 1;
 }
 
 /**
