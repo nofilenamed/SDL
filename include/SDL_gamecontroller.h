@@ -667,7 +667,7 @@ SDL_GameControllerHasAxis(SDL_GameController *gamecontroller, SDL_GameController
  *
  * \sa SDL_GameControllerGetButton
  */
-extern DECLSPEC Sint16 SDLCALL
+extern DECLSPEC float SDLCALL
 SDL_GameControllerGetAxis(SDL_GameController *gamecontroller, SDL_GameControllerAxis axis);
 
 extern DECLSPEC Sint16 SDLCALL
@@ -782,6 +782,10 @@ extern DECLSPEC SDL_bool SDLCALL SDL_GameControllerHasButton(SDL_GameController 
  */
 extern DECLSPEC Uint8 SDLCALL SDL_GameControllerGetButton(SDL_GameController *gamecontroller,
                                                           SDL_GameControllerButton button);
+
+extern DECLSPEC Uint8 SDLCALL SDL_GameControllerGetHat(SDL_GameController* gamecontroller,
+    int hat);
+
 
 /**
  * Get the number of touchpads on a game controller.

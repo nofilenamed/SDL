@@ -1982,7 +1982,7 @@ SDL_GameControllerHasAxis(SDL_GameController *gamecontroller, SDL_GameController
 /*
  * Get the current state of an axis control on a controller
  */
-Sint16
+float
 SDL_GameControllerGetAxis(SDL_GameController *gamecontroller, SDL_GameControllerAxis axis)
 {
     if (!gamecontroller)
@@ -2029,7 +2029,7 @@ SDL_GameControllerGetAxis(SDL_GameController *gamecontroller, SDL_GameController
             }
             /* If the value is zero, there might be another binding that makes it non-zero */
             if (value != 0 && valid_output_range) {
-                return (Sint16)value;
+                return (float)value / 32767;
             }
         }
     }
@@ -2168,6 +2168,18 @@ SDL_GameControllerGetButton(SDL_GameController *gamecontroller, SDL_GameControll
     }
     return SDL_RELEASED;
 }
+
+Uint8
+SDL_GameControllerGetHat(SDL_GameController* gamecontroller, int hat)
+{
+    SDL_Joystick* joystick = SDL_GameControllerGetJoystick(gamecontroller);
+
+    if (joystick) {
+        return SDL_JoystickGetHat(joystick, hat);
+    }
+    return 0;
+}
+
 
 /**
  *  Get the number of touchpads on a game controller.
