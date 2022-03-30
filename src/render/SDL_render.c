@@ -780,7 +780,8 @@ SDL_RendererEventWatch(void *userdata, SDL_Event *event)
                 }
             }
         }
-    } else if (event->type == SDL_MOUSEBUTTON) {
+    } else if (event->type == SDL_MOUSEBUTTONDOWN ||
+               event->type == SDL_MOUSEBUTTONUP) {
         SDL_Window *window = SDL_GetWindowFromID(event->button.windowID);
         if (window == renderer->window) {
             int logical_w, logical_h;

@@ -159,7 +159,6 @@ SDL_EventLoggingChanged(void *userdata, const char *name, const char *oldValue, 
     SDL_DoEventLogging = (hint && *hint) ? SDL_clamp(SDL_atoi(hint), 0, 2) : 0;
 }
 
-#ifdef  LOG_EVENT
 static void
 SDL_LogEvent(const SDL_Event *event)
 {
@@ -454,7 +453,6 @@ SDL_LogEvent(const SDL_Event *event)
 
     #undef uint
 }
-#endif //  LOG_EVENT
 
 
 
@@ -599,11 +597,9 @@ SDL_AddEvent(SDL_Event * event)
         SDL_EventQ.free = entry->next;
     }
 
-#ifdef LOG_EVENT
     if (SDL_DoEventLogging) {
         SDL_LogEvent(event);
     }
-#endif //  LOG_EVENT
 
     entry->event = *event;
     if (event->type == SDL_POLLSENTINEL) {
