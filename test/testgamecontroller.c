@@ -383,15 +383,15 @@ loop(void *arg)
             break;
 
         case SDL_KEYDOWN:
-            if (event.key.sym >= SDLK_0 && event.key.sym <= SDLK_9) {
+            if (event.key.index >= SDLK_0 && event.key.index <= SDLK_9) {
                 if (gamecontroller) {
-                    int player_index = (event.key.sym - SDLK_0);
+                    int player_index = (event.key.index - SDLK_0);
 
                     SDL_GameControllerSetPlayerIndex(gamecontroller, player_index);
                 }
                 break;
             }
-            if (event.key.sym != SDLK_ESCAPE) {
+            if (event.key.index != SDLK_ESCAPE) {
                 break;
             }
             SDL_FALLTHROUGH;
@@ -437,7 +437,7 @@ loop(void *arg)
         if (showing_front) {
             for (i = 0; i < SDL_CONTROLLER_AXIS_MAX; ++i) {
                 const Sint16 deadzone = 8000;  /* !!! FIXME: real deadzone */
-                const Sint16 value = SDL_GameControllerGetAxis(gamecontroller, (SDL_GameControllerAxis)(i));
+                const Sint16 value = SDL_GameControllerGetAxisI(gamecontroller, (SDL_GameControllerAxis)(i));
                 if (value < -deadzone) {
                     const double angle = axis_positions[i].angle;
                     SDL_Rect dst;
@@ -460,8 +460,8 @@ loop(void *arg)
 
         /* Update LED based on left thumbstick position */
         {
-            Sint16 x = SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_LEFTX);
-            Sint16 y = SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_LEFTY);
+            Sint16 x = SDL_GameControllerGetAxisI(gamecontroller, SDL_CONTROLLER_AXIS_LEFTX);
+            Sint16 y = SDL_GameControllerGetAxisI(gamecontroller, SDL_CONTROLLER_AXIS_LEFTY);
 
             if (!set_LED) {
                 set_LED = (x < -8000 || x > 8000 || y > 8000);
@@ -489,8 +489,8 @@ loop(void *arg)
         if (trigger_effect == 0) {
             /* Update rumble based on trigger state */
             {
-                Sint16 left = SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_TRIGGERLEFT);
-                Sint16 right = SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_TRIGGERRIGHT);
+                Sint16 left = SDL_GameControllerGetAxisI(gamecontroller, SDL_CONTROLLER_AXIS_TRIGGERLEFT);
+                Sint16 right = SDL_GameControllerGetAxisI(gamecontroller, SDL_CONTROLLER_AXIS_TRIGGERRIGHT);
                 Uint16 low_frequency_rumble = ConvertAxisToRumble(left);
                 Uint16 high_frequency_rumble = ConvertAxisToRumble(right);
                 SDL_GameControllerRumble(gamecontroller, low_frequency_rumble, high_frequency_rumble, 250);
@@ -498,8 +498,8 @@ loop(void *arg)
 
             /* Update trigger rumble based on thumbstick state */
             {
-                Sint16 left = SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_LEFTY);
-                Sint16 right = SDL_GameControllerGetAxis(gamecontroller, SDL_CONTROLLER_AXIS_RIGHTY);
+                Sint16 left = SDL_GameControllerGetAxisI(gamecontroller, SDL_CONTROLLER_AXIS_LEFTY);
+                Sint16 right = SDL_GameControllerGetAxisI(gamecontroller, SDL_CONTROLLER_AXIS_RIGHTY);
                 Uint16 left_rumble = ConvertAxisToRumble(~left);
                 Uint16 right_rumble = ConvertAxisToRumble(~right);
 

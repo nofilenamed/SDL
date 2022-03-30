@@ -671,6 +671,9 @@ extern DECLSPEC float SDLCALL
 SDL_GameControllerGetAxis(SDL_GameController *gamecontroller, SDL_GameControllerAxis axis);
 
 extern DECLSPEC Sint16 SDLCALL
+SDL_GameControllerGetAxisI(SDL_GameController* gamecontroller, SDL_GameControllerAxis axis);
+
+extern DECLSPEC Sint16 SDLCALL
 SDL_GameControllerGetAxisOut(SDL_GameController* gamecontroller, SDL_GameControllerAxis axisX, SDL_GameControllerAxis axisY, float * x, float* y);
 
 
