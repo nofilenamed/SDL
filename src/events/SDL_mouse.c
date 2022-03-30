@@ -467,7 +467,7 @@ SDL_PrivateSendMouseMotion(SDL_Window * window, SDL_MouseID mouseID, int relativ
     posted = 0;
     if (SDL_GetEventState(SDL_MOUSEMOTION) == SDL_ENABLE) {
         SDL_Event event;
-        event.motion.type = SDL_MOUSEMOTION;
+        //event.motion.type = SDL_MOUSEMOTION;
         event.motion.windowID = mouse->focus ? mouse->focus->id : 0;
         event.motion.which = mouseID;
         /* Set us pending (or clear during a normal mouse movement event) as having triggered */
@@ -572,13 +572,13 @@ SDL_PrivateSendMouseButton(SDL_Window * window, SDL_MouseID mouseID, Uint8 state
     }
 
     /* Figure out which event to perform */
+    type = SDL_MOUSEBUTTON;
+
     switch (state) {
     case SDL_PRESSED:
-        type = SDL_MOUSEBUTTONDOWN;
         buttonstate |= SDL_BUTTON(button);
         break;
     case SDL_RELEASED:
-        type = SDL_MOUSEBUTTONUP;
         buttonstate &= ~SDL_BUTTON(button);
         break;
     default:
