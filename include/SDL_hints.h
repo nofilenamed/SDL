@@ -47,6 +47,8 @@
 extern "C" {
 #endif
 
+
+
 /**
  *  \brief  A variable controlling whether the Android / iOS built-in
  *  accelerometer should be listed as a joystick device.
@@ -704,6 +706,10 @@ extern "C" {
  */
 #define SDL_HINT_JOYSTICK_HIDAPI_PS4_RUMBLE "SDL_JOYSTICK_HIDAPI_PS4_RUMBLE"
 
+#define SDL_HINT_JOYSTICK_HIDAPI_PS4_PLAYER_LED "SDL_JOYSTICK_HIDAPI_PS4_PLAYER_LED"
+
+#define SDL_HINT_JOYSTICK_HIDAPI_PS4_LED_DIMM "SDL_JOYTSTICK_HIDAPI_PS4_LED_DIMM"
+
 /**
  *  \brief  A variable controlling whether the HIDAPI driver for PS5 controllers should be used.
  *
@@ -722,8 +728,11 @@ extern "C" {
  *    "0"       - player LEDs are not enabled
  *    "1"       - player LEDs are enabled (the default)
  */
+#define SDL_HINT_JOYSTICK_HIDAPI_PS5_PLAYER_LIGHT "SDL_JOYSTICK_HIDAPI_PS5_PLAYER_LIGHT"
+
 #define SDL_HINT_JOYSTICK_HIDAPI_PS5_PLAYER_LED "SDL_JOYSTICK_HIDAPI_PS5_PLAYER_LED"
 
+#define SDL_HINT_JOYSTICK_HIDAPI_PS5_LED_DIMM "SDL_JOYSTICK_HIDAPI_PS5_LED_DIMM"
 /**
  *  \brief  A variable controlling whether extended input reports should be used for PS5 controllers when using the HIDAPI driver.
  *
@@ -742,7 +751,6 @@ extern "C" {
  *  the value of SDL_HINT_JOYSTICK_HIDAPI_PS4_RUMBLE.
  */
 #define SDL_HINT_JOYSTICK_HIDAPI_PS5_RUMBLE "SDL_JOYSTICK_HIDAPI_PS5_RUMBLE"
-
 /**
  *  \brief  A variable controlling whether the HIDAPI driver for Google Stadia controllers should be used.
  *

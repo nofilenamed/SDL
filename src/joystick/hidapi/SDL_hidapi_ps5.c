@@ -32,7 +32,6 @@
 #include "SDL_hidapijoystick_c.h"
 #include "SDL_hidapi_rumble.h"
 
-
 #ifdef SDL_JOYSTICK_HIDAPI_PS5
 
 /* Define this if you want to log all packets from the controller */
@@ -160,6 +159,8 @@ typedef struct {
     Uint32 last_packet;
     int player_index;
     SDL_bool player_lights;
+    SDL_bool player_led;
+    SDL_bool player_led_dimm;
     Uint8 rumble_left;
     Uint8 rumble_right;
     SDL_bool color_set;
@@ -200,7 +201,14 @@ static int ReadFeatureReport(SDL_hid_device *dev, Uint8 report_id, Uint8 *report
 }
 
 static void
-SetLedsForPlayerIndex(DS5EffectsState_t *effects, int player_index)
+SwitchOffLED(DS5EffectsState_t* effects) {
+    effects->ucLedRed = 0;
+    effects->ucLedGreen = 0;
+    effects->ucLedBlue = 0;
+}
+
+static void
+SetLedsForPlayerIndex(DS5EffectsState_t* effects, int player_index, SDL_bool dimm)
 {
     /* This list is the same as what hid-sony.c uses in the Linux kernel.
        The first 4 values correspond to what the PS4 assigns.
@@ -217,13 +225,21 @@ SetLedsForPlayerIndex(DS5EffectsState_t *effects, int player_index)
 
     if (player_index >= 0) {
         player_index %= SDL_arraysize(colors);
-    } else {
+    }
+    else {
         player_index = 0;
     }
 
-    effects->ucLedRed = colors[player_index][0];
-    effects->ucLedGreen = colors[player_index][1];
-    effects->ucLedBlue = colors[player_index][2];
+    if (dimm) {
+        effects->ucLedRed = SDL_clamp(colors[player_index][0], 0, 1);
+        effects->ucLedGreen = SDL_clamp(colors[player_index][1], 0, 1);
+        effects->ucLedBlue = SDL_clamp(colors[player_index][2], 0, 1);
+    }
+    else {
+        effects->ucLedRed = colors[player_index][0];
+        effects->ucLedGreen = colors[player_index][1];
+        effects->ucLedBlue = colors[player_index][2];
+    }
 }
 
 static void
@@ -374,9 +390,9 @@ HIDAPI_DriverPS5_ApplyCalibrationData(SDL_DriverPS5_Context *ctx, int index, Sin
 }
 
 static int
-HIDAPI_DriverPS5_UpdateEffects(SDL_HIDAPI_Device *device, int effect_mask)
+HIDAPI_DriverPS5_UpdateEffects(SDL_HIDAPI_Device* device, int effect_mask)
 {
-    SDL_DriverPS5_Context *ctx = (SDL_DriverPS5_Context *)device->context;
+    SDL_DriverPS5_Context* ctx = (SDL_DriverPS5_Context*)device->context;
     DS5EffectsState_t effects;
 
     if (!ctx->enhanced_mode) {
@@ -386,7 +402,7 @@ HIDAPI_DriverPS5_UpdateEffects(SDL_HIDAPI_Device *device, int effect_mask)
     SDL_zero(effects);
 
     /* Make sure the Bluetooth connection sequence has completed before sending LED color change */
-    if (ctx->is_bluetooth && 
+    if (ctx->is_bluetooth &&
         (effect_mask & (k_EDS5EffectLED | k_EDS5EffectPadLights)) != 0) {
         if (ctx->led_reset_state != k_EDS5LEDResetStateComplete) {
             ctx->led_reset_state = k_EDS5LEDResetStatePending;
@@ -401,7 +417,8 @@ HIDAPI_DriverPS5_UpdateEffects(SDL_HIDAPI_Device *device, int effect_mask)
         /* Shift to reduce effective rumble strength to match Xbox controllers */
         effects.ucRumbleLeft = ctx->rumble_left >> 1;
         effects.ucRumbleRight = ctx->rumble_right >> 1;
-    } else {
+    }
+    else {
         /* Leaving emulated rumble bits off will restore audio haptics */
     }
 
@@ -422,8 +439,13 @@ HIDAPI_DriverPS5_UpdateEffects(SDL_HIDAPI_Device *device, int effect_mask)
             effects.ucLedRed = ctx->led_red;
             effects.ucLedGreen = ctx->led_green;
             effects.ucLedBlue = ctx->led_blue;
-        } else {
-            SetLedsForPlayerIndex(&effects, ctx->player_index);
+        }
+        else if (ctx->player_led) {
+
+            SetLedsForPlayerIndex(&effects, ctx->player_index, ctx->player_led_dimm);
+        }
+        else {
+            SwitchOffLED(&effects);
         }
     }
     if ((effect_mask & k_EDS5EffectPadLights) != 0) {
@@ -431,7 +453,8 @@ HIDAPI_DriverPS5_UpdateEffects(SDL_HIDAPI_Device *device, int effect_mask)
 
         if (ctx->player_lights) {
             SetLightsForPlayerIndex(&effects, ctx->player_index);
-        } else {
+        }
+        else {
             effects.ucPadLights = 0x00;
         }
     }
@@ -622,6 +645,9 @@ HIDAPI_DriverPS5_OpenJoystick(SDL_HIDAPI_Device *device, SDL_Joystick *joystick)
     /* Initialize player index (needed for setting LEDs) */
     ctx->player_index = SDL_JoystickGetPlayerIndex(joystick);
     ctx->player_lights = SDL_GetHintBoolean(SDL_HINT_JOYSTICK_HIDAPI_PS5_PLAYER_LED, SDL_TRUE);
+
+    ctx->player_led = SDL_GetHintBoolean(SDL_HINT_JOYSTICK_HIDAPI_PS5_PLAYER_LED, SDL_TRUE);
+    ctx->player_led_dimm = SDL_GetHintBoolean(SDL_HINT_JOYSTICK_HIDAPI_PS5_LED_DIMM, SDL_FALSE);
 
     /* Initialize the joystick capabilities
      *

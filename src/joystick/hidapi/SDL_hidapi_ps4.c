@@ -133,7 +133,9 @@ typedef struct {
     SDL_bool hardware_calibration;
     IMUCalibrationData calibration[6];
     Uint32 last_packet;
-    int player_index;
+    int player_index;  
+    SDL_bool player_led;
+    SDL_bool player_led_dimm;
     Uint8 rumble_left;
     Uint8 rumble_right;
     SDL_bool color_set;
@@ -186,8 +188,16 @@ static SDL_bool HIDAPI_DriverPS4_CanRumble(Uint16 vendor_id, Uint16 product_id)
     return SDL_TRUE;
 }
 
+
 static void
-SetLedsForPlayerIndex(DS4EffectsState_t *effects, int player_index)
+SwitchOffLED(DS4EffectsState_t *effects) {
+    effects->ucLedRed = 0;
+    effects->ucLedGreen = 0;
+    effects->ucLedBlue = 0;
+}
+
+static void
+SetLedsForPlayerIndex(DS4EffectsState_t *effects, int player_index, SDL_bool dimm)
 {
     /* This list is the same as what hid-sony.c uses in the Linux kernel.
        The first 4 values correspond to what the PS4 assigns.
@@ -208,9 +218,16 @@ SetLedsForPlayerIndex(DS4EffectsState_t *effects, int player_index)
         player_index = 0;
     }
 
-    effects->ucLedRed = colors[player_index][0];
-    effects->ucLedGreen = colors[player_index][1];
-    effects->ucLedBlue = colors[player_index][2];
+    if (dimm) {
+        effects->ucLedRed = SDL_clamp(colors[player_index][0], 0, 1);
+        effects->ucLedGreen = SDL_clamp(colors[player_index][1], 0, 1);
+        effects->ucLedBlue = SDL_clamp(colors[player_index][2], 0, 1);
+    }
+    else {
+        effects->ucLedRed = colors[player_index][0];
+        effects->ucLedGreen = colors[player_index][1];
+        effects->ucLedBlue = colors[player_index][2];
+    }
 }
 
 static SDL_bool
@@ -409,9 +426,12 @@ HIDAPI_DriverPS4_UpdateEffects(SDL_HIDAPI_Device *device)
         effects.ucLedRed = ctx->led_red;
         effects.ucLedGreen = ctx->led_green;
         effects.ucLedBlue = ctx->led_blue;
+    } else if (ctx->player_led) {
+        SetLedsForPlayerIndex(&effects, ctx->player_index, ctx->player_led_dimm);
     } else {
-        SetLedsForPlayerIndex(&effects, ctx->player_index);
+        SwitchOffLED(&effects);
     }
+    
     return HIDAPI_DriverPS4_SendJoystickEffect(device, ctx->joystick, &effects, sizeof(effects));
 }
 
@@ -569,7 +589,8 @@ HIDAPI_DriverPS4_OpenJoystick(SDL_HIDAPI_Device *device, SDL_Joystick *joystick)
 
     /* Initialize player index (needed for setting LEDs) */
     ctx->player_index = SDL_JoystickGetPlayerIndex(joystick);
-
+    ctx->player_led = SDL_GetHintBoolean(SDL_HINT_JOYSTICK_HIDAPI_PS4_PLAYER_LED, SDL_TRUE);
+    ctx->player_led_dimm = SDL_GetHintBoolean(SDL_HINT_JOYSTICK_HIDAPI_PS4_LED_DIMM, SDL_FALSE);
     /* Initialize the joystick capabilities
      *
      * We can't dynamically add the touchpad button, so always report it here
