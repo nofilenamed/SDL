@@ -62,14 +62,20 @@ HIDAPI_DriverXbox360W_GetDeviceName(Uint16 vendor_id, Uint16 product_id)
     return "Xbox 360 Wireless Controller";
 }
 
-static SDL_bool SetSlotLED(SDL_hid_device *dev, Uint8 slot)
+static SDL_bool SetSlotLED(SDL_HIDAPI_Device *device, Uint8 slot)
 {
     const SDL_bool blink = SDL_FALSE;
     Uint8 mode = (blink ? 0x02 : 0x06) + slot;
     Uint8 led_packet[] = { 0x00, 0x00, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
-    led_packet[3] = 0x40 + (mode % 0x0e);
-    if (SDL_hid_write(dev, led_packet, sizeof(led_packet)) != sizeof(led_packet)) {
+    if (device->player_led) {
+        led_packet[3] = 0x40 + (mode % 0x0e);
+    }
+    else {
+        led_packet[3] = 0x00;
+    }
+
+    if (SDL_hid_write(device->dev, led_packet, sizeof(led_packet)) != sizeof(led_packet)) {
         return SDL_FALSE;
     }
     return SDL_TRUE;
@@ -134,7 +140,7 @@ HIDAPI_DriverXbox360W_SetDevicePlayerIndex(SDL_HIDAPI_Device *device, SDL_Joysti
         return;
     }
     if (player_index >= 0) {
-        SetSlotLED(device->dev, (player_index % 4));
+        SetSlotLED(device, (player_index % 4));
     }
 }
 
@@ -144,6 +150,8 @@ HIDAPI_DriverXbox360W_OpenJoystick(SDL_HIDAPI_Device *device, SDL_Joystick *joys
     SDL_DriverXbox360W_Context *ctx = (SDL_DriverXbox360W_Context *)device->context;
 
     SDL_zeroa(ctx->last_state);
+
+    device->player_led = SDL_GetHintBoolean(SDL_HINT_JOYSTICK_HIDAPI_XBOX_WIRELESS_LED, SDL_TRUE);
 
     /* Initialize the joystick capabilities */
     joystick->nbuttons = 15;

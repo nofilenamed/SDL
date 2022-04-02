@@ -728,7 +728,7 @@ extern "C" {
  *    "0"       - player LEDs are not enabled
  *    "1"       - player LEDs are enabled (the default)
  */
-#define SDL_HINT_JOYSTICK_HIDAPI_PS5_PLAYER_LIGHT "SDL_JOYSTICK_HIDAPI_PS5_PLAYER_LIGHT"
+#define SDL_HINT_JOYSTICK_HIDAPI_PS5_PAD_LED "SDL_JOYSTICK_HIDAPI_PS5_PAD_LED"
 
 #define SDL_HINT_JOYSTICK_HIDAPI_PS5_PLAYER_LED "SDL_JOYSTICK_HIDAPI_PS5_PLAYER_LED"
 
@@ -806,6 +806,13 @@ extern "C" {
  *  The default is "0" on Windows, otherwise the value of SDL_HINT_JOYSTICK_HIDAPI
  */
 #define SDL_HINT_JOYSTICK_HIDAPI_XBOX   "SDL_JOYSTICK_HIDAPI_XBOX"
+
+#define SDL_HINT_JOYSTICK_HIDAPI_XBOX_LED   "SDL_JOYSTICK_HIDAPI_XBOX_LED"
+
+#define SDL_HINT_JOYSTICK_HIDAPI_XBOX_WIRELESS_LED   "SDL_JOYSTICK_HIDAPI_XBOX_WIRELESS_LED"
+
+
+#define SDL_HINT_JOYSTICK_HIDAPI_XBOX_ONE_LED   "SDL_JOYSTICK_HIDAPI_XBOX_ONE_LED"
 
  /**
   *  \brief  A variable controlling whether the RAWINPUT joystick drivers should be used for better handling XInput-capable devices.

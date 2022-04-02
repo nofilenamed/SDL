@@ -88,14 +88,19 @@ HIDAPI_DriverXbox360_GetDeviceName(Uint16 vendor_id, Uint16 product_id)
     return NULL;
 }
 
-static SDL_bool SetSlotLED(SDL_hid_device *dev, Uint8 slot)
+static SDL_bool SetSlotLED(SDL_HIDAPI_Device *device, Uint8 slot)
 {
     const SDL_bool blink = SDL_FALSE;
-    Uint8 mode = (blink ? 0x02 : 0x06) + slot;
+
     Uint8 led_packet[] = { 0x01, 0x03, 0x00 };
 
-    led_packet[2] = mode;
-    if (SDL_hid_write(dev, led_packet, sizeof(led_packet)) != sizeof(led_packet)) {
+    if (device->player_led) {
+        led_packet[2] = (blink ? 0x02 : 0x06) + slot;
+    }else {
+        led_packet[2] = 0x00;
+    }
+
+    if (SDL_hid_write(device->dev, led_packet, sizeof(led_packet)) != sizeof(led_packet)) {
         return SDL_FALSE;
     }
     return SDL_TRUE;
@@ -120,7 +125,7 @@ HIDAPI_DriverXbox360_SetDevicePlayerIndex(SDL_HIDAPI_Device *device, SDL_Joystic
         return;
     }
     if (player_index >= 0) {
-        SetSlotLED(device->dev, (player_index % 4));
+        SetSlotLED(device, (player_index % 4));
     }
 }
 
@@ -128,7 +133,7 @@ static SDL_bool
 HIDAPI_DriverXbox360_OpenJoystick(SDL_HIDAPI_Device *device, SDL_Joystick *joystick)
 {
     SDL_DriverXbox360_Context *ctx;
-    int player_index;
+    //int player_index;
 
     ctx = (SDL_DriverXbox360_Context *)SDL_calloc(1, sizeof(*ctx));
     if (!ctx) {
@@ -143,12 +148,13 @@ HIDAPI_DriverXbox360_OpenJoystick(SDL_HIDAPI_Device *device, SDL_Joystick *joyst
         return SDL_FALSE;
     }
     device->context = ctx;
+    device->player_led = SDL_GetHintBoolean(SDL_HINT_JOYSTICK_HIDAPI_XBOX_LED, SDL_TRUE);
 
     /* Set the controller LED */
-    player_index = SDL_JoystickGetPlayerIndex(joystick);
+    /*player_index = SDL_JoystickGetPlayerIndex(joystick);
     if (player_index >= 0) {
-        SetSlotLED(device->dev, (player_index % 4));
-    }
+        SetSlotLED(device, (player_index % 4));
+    }*/
 
     /* Initialize the joystick capabilities */
     joystick->nbuttons = 15;
