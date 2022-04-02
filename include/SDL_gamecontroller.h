@@ -966,6 +966,10 @@ extern DECLSPEC SDL_bool SDLCALL SDL_GameControllerHasRumbleTriggers(SDL_GameCon
  */
 extern DECLSPEC int SDLCALL SDL_GameControllerSetLED(SDL_GameController *gamecontroller, Uint8 red, Uint8 green, Uint8 blue);
 
+
+extern DECLSPEC int SDLCALL SDL_GameControllerGetLED(SDL_GameController* gamecontroller, Uint8 *red, Uint8 *green, Uint8 *blue);
+
+
 /**
  * Send a controller specific effect packet
  *

@@ -1029,6 +1029,25 @@ SDL_JoystickSetLED(SDL_Joystick *joystick, Uint8 red, Uint8 green, Uint8 blue)
 }
 
 int
+SDL_JoystickGetLED(SDL_Joystick* joystick, Uint8* red, Uint8* green, Uint8* blue)
+{
+    if (!SDL_PrivateJoystickValid(joystick)) {
+        return -1;
+    }
+
+    SDL_LockJoysticks();
+
+    *red = joystick->led_red;
+    *green = joystick->led_green;
+    *blue = joystick->led_blue;
+
+    SDL_UnlockJoysticks();
+
+    return 1;
+
+}
+
+int
 SDL_JoystickSendEffect(SDL_Joystick *joystick, const void *data, int size)
 {
     int result;
@@ -1517,10 +1536,10 @@ SDL_PrivateJoystickButton(SDL_Joystick *joystick, Uint8 button, Uint8 state)
 
     switch (state) {
     case SDL_PRESSED:
-        event.type = SDL_JOYBUTTONDOWN;
+        event.type = SDL_JOYBUTTON;
         break;
     case SDL_RELEASED:
-        event.type = SDL_JOYBUTTONUP;
+        event.type = SDL_JOYBUTTON;
         break;
     default:
         /* Invalid state -- bail */
@@ -1651,7 +1670,7 @@ SDL_JoystickEventState(int state)
 #else
     const Uint32 event_list[] = {
         SDL_JOYAXISMOTION, SDL_JOYBALLMOTION, SDL_JOYHATMOTION,
-        SDL_JOYBUTTONDOWN, SDL_JOYBUTTONUP, SDL_JOYDEVICEADDED, SDL_JOYDEVICEREMOVED
+        SDL_JOYBUTTON, SDL_JOYDEVICEADDED, SDL_JOYDEVICEREMOVED
     };
     unsigned int i;
 
@@ -2779,15 +2798,13 @@ int SDL_PrivateJoystickTouchpad(SDL_Joystick *joystick, int touchpad, int finger
 
     if (state == finger_info->state) {
         event_type = SDL_CONTROLLERTOUCHPADMOTION;
-    } else if (state) {
-        event_type = SDL_CONTROLLERTOUCHPADDOWN;
     } else {
-        event_type = SDL_CONTROLLERTOUCHPADUP;
+        event_type = SDL_CONTROLLERTOUCHPAD;
     }
 
     /* We ignore events if we don't have keyboard focus, except for touch release */
     if (SDL_PrivateJoystickShouldIgnoreEvent()) {
-        if (event_type != SDL_CONTROLLERTOUCHPADUP) {
+        if (state != 0) {
             return 0;
         }
     }

@@ -574,11 +574,11 @@ SDL_PrivateSendMouseButton(SDL_Window * window, SDL_MouseID mouseID, Uint8 state
     /* Figure out which event to perform */
     switch (state) {
     case SDL_PRESSED:
-        type = SDL_MOUSEBUTTONDOWN;
+        type = SDL_MOUSEBUTTON;
         buttonstate |= SDL_BUTTON(button);
         break;
     case SDL_RELEASED:
-        type = SDL_MOUSEBUTTONUP;
+        type = SDL_MOUSEBUTTON;
         buttonstate &= ~SDL_BUTTON(button);
         break;
     default:

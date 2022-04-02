@@ -60,30 +60,12 @@ typedef enum
     SDL_QUIT           = 0x100, /**< User-requested quit */
 
     /* These application events have special meaning on iOS, see README-ios.md for details */
-    SDL_APP_TERMINATING,        /**< The application is being terminated by the OS
-                                     Called on iOS in applicationWillTerminate()
-                                     Called on Android in onDestroy()
-                                */
-    SDL_APP_LOWMEMORY,          /**< The application is low on memory, free memory if possible.
-                                     Called on iOS in applicationDidReceiveMemoryWarning()
-                                     Called on Android in onLowMemory()
-                                */
-    SDL_APP_WILLENTERBACKGROUND, /**< The application is about to enter the background
-                                     Called on iOS in applicationWillResignActive()
-                                     Called on Android in onPause()
-                                */
-    SDL_APP_DIDENTERBACKGROUND, /**< The application did enter the background and may not get CPU for some time
-                                     Called on iOS in applicationDidEnterBackground()
-                                     Called on Android in onPause()
-                                */
-    SDL_APP_WILLENTERFOREGROUND, /**< The application is about to enter the foreground
-                                     Called on iOS in applicationWillEnterForeground()
-                                     Called on Android in onResume()
-                                */
-    SDL_APP_DIDENTERFOREGROUND, /**< The application is now interactive
-                                     Called on iOS in applicationDidBecomeActive()
-                                     Called on Android in onResume()
-                                */
+    SDL_APP_TERMINATING,        /**< The application is being terminated by the OS. Called on iOS in applicationWillTerminate(). Called on Android in onDestroy() */
+    SDL_APP_LOWMEMORY,          /**< The application is low on memory, free memory if possible. Called on iOS in applicationDidReceiveMemoryWarning(). Called on Android in onLowMemory() */
+    SDL_APP_WILLENTERBACKGROUND, /**< The application is about to enter the background. Called on iOS in applicationWillResignActive(). Called on Android in onPause() */
+    SDL_APP_DIDENTERBACKGROUND, /**< The application did enter the background and may not get CPU for some time. Called on iOS in applicationDidEnterBackground(). Called on Android in onPause()*/
+    SDL_APP_WILLENTERFOREGROUND, /**< The application is about to enter the foreground. Called on iOS in applicationWillEnterForeground(). Called on Android in onResume()*/
+    SDL_APP_DIDENTERFOREGROUND, /**< The application is now interactive. Called on iOS in applicationDidBecomeActive(). Called on Android in onResume()*/
 
     SDL_LOCALECHANGED,  /**< The user's locale preferences have changed. */
 
@@ -95,8 +77,8 @@ typedef enum
     SDL_SYSWMEVENT,             /**< System specific event */
 
     /* Keyboard events */
-    SDL_KEYDOWN        = 0x300, /**< Key pressed */
-    SDL_KEYUP,                  /**< Key released */
+    SDL_KEYBOARD        = 0x300, /**< Key pressed */
+    //SDL_KEYUP,                  /**< Key released */
     SDL_TEXTEDITING,            /**< Keyboard text editing (composition) */
     SDL_TEXTINPUT,              /**< Keyboard text input */
     SDL_KEYMAPCHANGED,          /**< Keymap changed due to a system event such as an
@@ -106,29 +88,33 @@ typedef enum
 
     /* Mouse events */
     SDL_MOUSEMOTION    = 0x400, /**< Mouse moved */
-    SDL_MOUSEBUTTONDOWN,        /**< Mouse button pressed */
-    SDL_MOUSEBUTTONUP,          /**< Mouse button released */
+    SDL_MOUSEBUTTON,        /**< Mouse button pressed */
+    //SDL_MOUSEBUTTONUP,          /**< Mouse button released */
     SDL_MOUSEWHEEL,             /**< Mouse wheel motion */
 
     /* Joystick events */
     SDL_JOYAXISMOTION  = 0x600, /**< Joystick axis motion */
     SDL_JOYBALLMOTION,          /**< Joystick trackball motion */
     SDL_JOYHATMOTION,           /**< Joystick hat position change */
-    SDL_JOYBUTTONDOWN,          /**< Joystick button pressed */
-    SDL_JOYBUTTONUP,            /**< Joystick button released */
+    
+    SDL_JOYBUTTON,          /**< Joystick button pressed */
+    //SDL_JOYBUTTONUP,            /**< Joystick button released */
+    
     SDL_JOYDEVICEADDED,         /**< A new joystick has been inserted into the system */
     SDL_JOYDEVICEREMOVED,       /**< An opened joystick has been removed */
 
     /* Game controller events */
     SDL_CONTROLLERAXISMOTION  = 0x650, /**< Game controller axis motion */
-    SDL_CONTROLLERBUTTONDOWN,          /**< Game controller button pressed */
-    SDL_CONTROLLERBUTTONUP,            /**< Game controller button released */
+    SDL_CONTROLLERBUTTON,          /**< Game controller button pressed */
+    //SDL_CONTROLLERBUTTONUP,            /**< Game controller button released */
     SDL_CONTROLLERDEVICEADDED,         /**< A new Game controller has been inserted into the system */
     SDL_CONTROLLERDEVICEREMOVED,       /**< An opened Game controller has been removed */
+   
     SDL_CONTROLLERDEVICEREMAPPED,      /**< The controller mapping was updated */
-    SDL_CONTROLLERTOUCHPADDOWN,        /**< Game controller touchpad was touched */
+    
+    SDL_CONTROLLERTOUCHPAD,        /**< Game controller touchpad was touched */
     SDL_CONTROLLERTOUCHPADMOTION,      /**< Game controller touchpad finger was moved */
-    SDL_CONTROLLERTOUCHPADUP,          /**< Game controller touchpad finger was lifted */
+    //SDL_CONTROLLERTOUCHPADUP,          /**< Game controller touchpad finger was lifted */
     SDL_CONTROLLERSENSORUPDATE,        /**< Game controller sensor was updated */
 
     /* Touch events */
@@ -607,7 +593,9 @@ typedef struct SDL_SysWMEvent
 typedef union SDL_Event
 {
     Uint32 type;                            /**< Event type, shared with all events */
+    
     SDL_CommonEvent common;                 /**< Common event data */
+    
     SDL_DisplayEvent display;               /**< Display event data */
     SDL_WindowEvent window;                 /**< Window event data */
     SDL_KeyboardEvent key;                  /**< Keyboard event data */

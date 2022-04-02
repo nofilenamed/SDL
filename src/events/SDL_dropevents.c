@@ -94,5 +94,4 @@ SDL_SendDropComplete(SDL_Window *window)
     return SDL_SendDrop(window, SDL_DROPCOMPLETE, NULL);
 }
 
-
 /* vi: set ts=4 sw=4 expandtab: */

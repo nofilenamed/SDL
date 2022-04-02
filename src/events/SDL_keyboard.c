@@ -690,10 +690,10 @@ SDL_SendKeyboardKeyInternal(Uint8 source, Uint8 state, SDL_Scancode scancode)
     /* Figure out what type of event this is */
     switch (state) {
     case SDL_PRESSED:
-        type = SDL_KEYDOWN;
+        type = SDL_KEYBOARD;
         break;
     case SDL_RELEASED:
-        type = SDL_KEYUP;
+        type = SDL_KEYBOARD;
         break;
     default:
         /* Invalid state -- bail */
@@ -759,7 +759,7 @@ SDL_SendKeyboardKeyInternal(Uint8 source, Uint8 state, SDL_Scancode scancode)
         modifier = KMOD_NONE;
         break;
     }
-    if (SDL_KEYDOWN == type) {
+    if (state == SDL_PRESSED) {
         switch (keycode) {
         case SDLK_NUMLOCKCLEAR:
             keyboard->modstate ^= KMOD_NUM;

@@ -401,8 +401,8 @@ static int SDLCALL SDL_GameControllerEventWatcher(void *userdata, SDL_Event * ev
             }
         }
         break;
-    case SDL_JOYBUTTONDOWN:
-    case SDL_JOYBUTTONUP:
+    case SDL_JOYBUTTON:
+    //case SDL_JOYBUTTONUP:
         {
             SDL_GameController *controllerlist = SDL_gamecontrollers;
             while (controllerlist) {
@@ -2591,6 +2591,12 @@ SDL_GameControllerSetLED(SDL_GameController *gamecontroller, Uint8 red, Uint8 gr
 }
 
 int
+SDL_GameControllerGetLED(SDL_GameController* gamecontroller, Uint8 *red, Uint8 *green, Uint8 *blue)
+{
+    return SDL_JoystickGetLED(SDL_GameControllerGetJoystick(gamecontroller), red, green, blue);
+}
+
+int
 SDL_GameControllerSendEffect(SDL_GameController *gamecontroller, const void *data, int size)
 {
     return SDL_JoystickSendEffect(SDL_GameControllerGetJoystick(gamecontroller), data, size);
@@ -2722,10 +2728,10 @@ SDL_PrivateGameControllerButton(SDL_GameController *gamecontroller, SDL_GameCont
 
     switch (state) {
     case SDL_PRESSED:
-        event.type = SDL_CONTROLLERBUTTONDOWN;
+        event.type = SDL_CONTROLLERBUTTON;
         break;
     case SDL_RELEASED:
-        event.type = SDL_CONTROLLERBUTTONUP;
+        event.type = SDL_CONTROLLERBUTTON;
         break;
     default:
         /* Invalid state -- bail */
@@ -2774,7 +2780,7 @@ SDL_GameControllerEventState(int state)
     return SDL_IGNORE;
 #else
     const Uint32 event_list[] = {
-        SDL_CONTROLLERAXISMOTION, SDL_CONTROLLERBUTTONDOWN, SDL_CONTROLLERBUTTONUP,
+        SDL_CONTROLLERAXISMOTION, SDL_CONTROLLERBUTTON,
         SDL_CONTROLLERDEVICEADDED, SDL_CONTROLLERDEVICEREMOVED, SDL_CONTROLLERDEVICEREMAPPED,
     };
     unsigned int i;

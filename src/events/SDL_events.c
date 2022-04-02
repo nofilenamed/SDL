@@ -267,8 +267,8 @@ SDL_LogEvent(const SDL_Event *event)
         #define PRINT_KEY_EVENT(event) \
             SDL_snprintf(details, sizeof (details), " (timestamp=%u windowid=%u mod=%u)", \
                 (uint) event->key.timestamp, (uint) event->key.windowID, (uint) event->key.mod)
-        SDL_EVENT_CASE(SDL_KEYDOWN) PRINT_KEY_EVENT(event); break;
-        SDL_EVENT_CASE(SDL_KEYUP) PRINT_KEY_EVENT(event); break;
+        SDL_EVENT_CASE(SDL_KEYBOARD) PRINT_KEY_EVENT(event); break;
+        //SDL_EVENT_CASE(SDL_KEYUP) PRINT_KEY_EVENT(event); break;
         #undef PRINT_KEY_EVENT
 
         /*#define PRINT_KEY_EVENT(event) \
@@ -308,8 +308,8 @@ SDL_LogEvent(const SDL_Event *event)
                     (uint) event->button.which, (uint) event->button.button, \
                     event->button.state == SDL_PRESSED ? "pressed" : "released", \
                     (uint) event->button.clicks, (int) event->button.x, (int) event->button.y)
-        SDL_EVENT_CASE(SDL_MOUSEBUTTONDOWN) PRINT_MBUTTON_EVENT(event); break;
-        SDL_EVENT_CASE(SDL_MOUSEBUTTONUP) PRINT_MBUTTON_EVENT(event); break;
+        SDL_EVENT_CASE(SDL_MOUSEBUTTON) PRINT_MBUTTON_EVENT(event); break;
+        //SDL_EVENT_CASE(SDL_MOUSEBUTTONUP) PRINT_MBUTTON_EVENT(event); break;
         #undef PRINT_MBUTTON_EVENT
 
 
@@ -343,8 +343,8 @@ SDL_LogEvent(const SDL_Event *event)
             SDL_snprintf(details, sizeof (details), " (timestamp=%u which=%d button=%u state=%s)", \
                 (uint) event->jbutton.timestamp, (int) event->jbutton.which, \
                 (uint) event->jbutton.button, event->jbutton.state == SDL_PRESSED ? "pressed" : "released")
-        SDL_EVENT_CASE(SDL_JOYBUTTONDOWN) PRINT_JBUTTON_EVENT(event); break;
-        SDL_EVENT_CASE(SDL_JOYBUTTONUP) PRINT_JBUTTON_EVENT(event); break;
+        SDL_EVENT_CASE(SDL_JOYBUTTON) PRINT_JBUTTON_EVENT(event); break;
+        //SDL_EVENT_CASE(SDL_JOYBUTTONUP) PRINT_JBUTTON_EVENT(event); break;
         #undef PRINT_JBUTTON_EVENT
 
         #define PRINT_JOYDEV_EVENT(event) SDL_snprintf(details, sizeof (details), " (timestamp=%u which=%d)", (uint) event->jdevice.timestamp, (int) event->jdevice.which)
@@ -362,8 +362,8 @@ SDL_LogEvent(const SDL_Event *event)
             SDL_snprintf(details, sizeof (details), " (timestamp=%u which=%d button=%u state=%s)", \
                 (uint) event->cbutton.timestamp, (int) event->cbutton.which, \
                 (uint) event->cbutton.button, event->cbutton.state == SDL_PRESSED ? "pressed" : "released")
-        SDL_EVENT_CASE(SDL_CONTROLLERBUTTONDOWN) PRINT_CBUTTON_EVENT(event); break;
-        SDL_EVENT_CASE(SDL_CONTROLLERBUTTONUP) PRINT_CBUTTON_EVENT(event); break;
+        SDL_EVENT_CASE(SDL_CONTROLLERBUTTON) PRINT_CBUTTON_EVENT(event); break;
+        //SDL_EVENT_CASE(SDL_CONTROLLERBUTTONUP) PRINT_CBUTTON_EVENT(event); break;
         #undef PRINT_CBUTTON_EVENT
 
         #define PRINT_CONTROLLERDEV_EVENT(event) SDL_snprintf(details, sizeof (details), " (timestamp=%u which=%d)", (uint) event->cdevice.timestamp, (int) event->cdevice.which)
@@ -377,8 +377,8 @@ SDL_LogEvent(const SDL_Event *event)
                 (uint) event->ctouchpad.timestamp, (int) event->ctouchpad.which, \
                 (int) event->ctouchpad.touchpad, (int) event->ctouchpad.finger, \
                 event->ctouchpad.x, event->ctouchpad.y, event->ctouchpad.pressure)
-        SDL_EVENT_CASE(SDL_CONTROLLERTOUCHPADDOWN) PRINT_CTOUCHPAD_EVENT(event); break;
-        SDL_EVENT_CASE(SDL_CONTROLLERTOUCHPADUP) PRINT_CTOUCHPAD_EVENT(event); break;
+        SDL_EVENT_CASE(SDL_CONTROLLERTOUCHPAD) PRINT_CTOUCHPAD_EVENT(event); break;
+        //SDL_EVENT_CASE(SDL_CONTROLLERTOUCHPADUP) PRINT_CTOUCHPAD_EVENT(event); break;
         SDL_EVENT_CASE(SDL_CONTROLLERTOUCHPADMOTION) PRINT_CTOUCHPAD_EVENT(event); break;
         #undef PRINT_CTOUCHPAD_EVENT
 

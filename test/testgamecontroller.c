@@ -383,15 +383,15 @@ loop(void *arg)
             break;
 
         case SDL_KEYDOWN:
-            if (event.key.sym >= SDLK_0 && event.key.sym <= SDLK_9) {
+            if (event.key.index >= SDLK_0 && event.key.index <= SDLK_9) {
                 if (gamecontroller) {
-                    int player_index = (event.key.sym - SDLK_0);
+                    int player_index = (event.key.index - SDLK_0);
 
                     SDL_GameControllerSetPlayerIndex(gamecontroller, player_index);
                 }
                 break;
             }
-            if (event.key.sym != SDLK_ESCAPE) {
+            if (event.key.index != SDLK_ESCAPE) {
                 break;
             }
             SDL_FALLTHROUGH;

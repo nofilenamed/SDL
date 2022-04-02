@@ -901,6 +901,8 @@ extern DECLSPEC SDL_bool SDLCALL SDL_JoystickHasRumbleTriggers(SDL_Joystick *joy
  */
 extern DECLSPEC int SDLCALL SDL_JoystickSetLED(SDL_Joystick *joystick, Uint8 red, Uint8 green, Uint8 blue);
 
+extern DECLSPEC int SDLCALL SDL_JoystickGetLED(SDL_Joystick* joystick, Uint8 *red, Uint8 *green, Uint8 *blue);
+
 /**
  * Send a joystick specific effect packet
  *
