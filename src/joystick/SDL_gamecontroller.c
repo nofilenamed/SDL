@@ -2880,6 +2880,8 @@ SDL_GetControllerData(SDL_GameController* gamecontroller) {
     data.value.haptic  = SDL_SYS_JoystickIsHaptic(joystick) > 0;
     data.value.touchpad = joystick->ntouchpads;
 
+    data.value.guid = joystick->guid;
+
     return data;
 }
 

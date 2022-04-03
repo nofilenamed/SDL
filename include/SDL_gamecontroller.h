@@ -117,6 +117,8 @@ typedef struct SDL_GameControllerData
 
         SDL_bool haptic;
         int touchpad; //SDL_GameControllerGetNumTouchpads
+
+        SDL_JoystickGUID guid;
     } value;
 
 } SDL_GameControllerData;
