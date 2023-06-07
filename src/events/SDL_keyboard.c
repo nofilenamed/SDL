@@ -785,7 +785,7 @@ SDL_SendKeyboardKeyInternal(Uint8 source, Uint8 state, SDL_Scancode scancode)
         event.key.type = type;
         event.key.state = state;
         event.key.repeat = repeat;
-        event.key.index = (Uint16)keycode;
+        event.key.index = (Uint16)scancode;// (Uint16)keycode;
         //event.key.scancode = scancode;
         //event.key.sym = keycode;
         event.key.mod = keyboard->modstate;        
