@@ -678,7 +678,7 @@ SDL_SendKeyboardKeyInternal(Uint8 source, Uint8 state, SDL_Scancode scancode)
     Uint32 type;
     Uint8 repeat = SDL_FALSE;
 
-    if (scancode == SDL_SCANCODE_UNKNOWN || scancode >= SDL_NUM_SCANCODES) {
+    if (scancode == SDL_SCANCODE_UNKNOWN || scancode >= SDL_SCANCODE_MODE) {
         return 0;
     }
 
